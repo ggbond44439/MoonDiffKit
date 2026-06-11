@@ -41,3 +41,14 @@ test "lcs length detects shared subsequence" {
   )
   assert_eq(@MoonDiffKit.lcs_length(["a", "b"], ["x", "y"]), 0)
 }
+
+///|
+test "diff lines emits stable ordered operations" {
+  let ops = @MoonDiffKit.diff_lines(["a", "b", "c"], ["a", "x", "c"])
+  assert_eq(ops.length(), 4)
+  assert_eq(ops[0].kind, "equal")
+  assert_eq(ops[1].kind, "remove")
+  assert_eq(ops[2].kind, "add")
+  assert_eq(ops[3].text, "c")
+  assert_eq(@MoonDiffKit.summarize(ops).changed, 2)
+}

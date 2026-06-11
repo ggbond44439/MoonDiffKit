@@ -76,7 +76,10 @@ fn table_index(width : Int, row : Int, col : Int) -> Int {
 }
 
 ///|
-pub fn lcs_length(old_lines : Array[String], new_lines : Array[String]) -> Int {
+fn build_lcs_table(
+  old_lines : Array[String],
+  new_lines : Array[String],
+) -> Array[Int] {
   let width = new_lines.length() + 1
   let table = Array::make((old_lines.length() + 1) * width, 0)
   for i = 1; i <= old_lines.length(); i = i + 1 {
@@ -92,5 +95,54 @@ pub fn lcs_length(old_lines : Array[String], new_lines : Array[String]) -> Int {
       }
     }
   }
+  table
+}
+
+///|
+pub fn lcs_length(old_lines : Array[String], new_lines : Array[String]) -> Int {
+  let width = new_lines.length() + 1
+  let table = build_lcs_table(old_lines, new_lines)
   table[table_index(width, old_lines.length(), new_lines.length())]
+}
+
+///|
+fn reverse_ops(ops : Array[DiffOp]) -> Array[DiffOp] {
+  let result : Array[DiffOp] = []
+  let mut index = ops.length() - 1
+  while index >= 0 {
+    result.push(ops[index])
+    index = index - 1
+  }
+  result
+}
+
+///|
+pub fn diff_lines(
+  old_lines : Array[String],
+  new_lines : Array[String],
+) -> Array[DiffOp] {
+  let width = new_lines.length() + 1
+  let table = build_lcs_table(old_lines, new_lines)
+  let reversed : Array[DiffOp] = []
+  let mut i = old_lines.length()
+  let mut j = new_lines.length()
+  while i > 0 || j > 0 {
+    if i > 0 && j > 0 && old_lines[i - 1] == new_lines[j - 1] {
+      reversed.push(DiffOp::equal(i - 1, j - 1, old_lines[i - 1]))
+      i = i - 1
+      j = j - 1
+    } else if j > 0 &&
+      (
+        i == 0 ||
+        table[table_index(width, i, j - 1)] >=
+        table[table_index(width, i - 1, j)]
+      ) {
+      reversed.push(DiffOp::add(j - 1, new_lines[j - 1]))
+      j = j - 1
+    } else {
+      reversed.push(DiffOp::remove(i - 1, old_lines[i - 1]))
+      i = i - 1
+    }
+  }
+  reverse_ops(reversed)
 }
