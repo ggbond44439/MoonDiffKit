@@ -1,6 +1,6 @@
-// import {
-//   "ggbond44439/MoonDiffKit" @lib,
-// }
+import {
+  "ggbond44439/MoonDiffKit" @diff,
+}
 
 options(
   "is-main": true,
