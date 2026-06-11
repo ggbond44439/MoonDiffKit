@@ -76,3 +76,11 @@ test "apply operations rebuilds the new side" {
   assert_eq(rebuilt[1], "new")
   assert_eq(rebuilt[3], "extra")
 }
+
+///|
+test "similarity uses lcs based per mille scale" {
+  assert_eq(@MoonDiffKit.similarity_per_mille(["a", "b"], ["a", "b"]), 1000)
+  assert_eq(@MoonDiffKit.similarity_per_mille(["a", "b"], ["x", "y"]), 0)
+  assert_true(@MoonDiffKit.is_identical(["same"], ["same"]))
+  assert_false(@MoonDiffKit.is_identical(["same"], ["changed"]))
+}

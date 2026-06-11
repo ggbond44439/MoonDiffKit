@@ -182,3 +182,25 @@ pub fn apply_ops(
   }
   result
 }
+
+///|
+pub fn similarity_per_mille(
+  old_lines : Array[String],
+  new_lines : Array[String],
+) -> Int {
+  let total = old_lines.length() + new_lines.length()
+  if total == 0 {
+    1000
+  } else {
+    lcs_length(old_lines, new_lines) * 2000 / total
+  }
+}
+
+///|
+pub fn is_identical(
+  old_lines : Array[String],
+  new_lines : Array[String],
+) -> Bool {
+  old_lines.length() == new_lines.length() &&
+  similarity_per_mille(old_lines, new_lines) == 1000
+}
