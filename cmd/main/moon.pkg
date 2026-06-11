@@ -1,0 +1,7 @@
+// import {
+//   "ggbond44439/MoonDiffKit" @lib,
+// }
+
+options(
+  "is-main": true,
+)
