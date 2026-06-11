@@ -52,3 +52,16 @@ test "diff lines emits stable ordered operations" {
   assert_eq(ops[3].text, "c")
   assert_eq(@MoonDiffKit.summarize(ops).changed, 2)
 }
+
+///|
+test "unified patch uses familiar line prefixes" {
+  let patch = @MoonDiffKit.to_unified_patch(
+    @MoonDiffKit.diff_lines(["one", "two"], ["one", "three"]),
+    old_label="before.txt",
+    new_label="after.txt",
+  )
+  assert_true(patch.contains("--- before.txt"))
+  assert_true(patch.contains("+++ after.txt"))
+  assert_true(patch.contains("-two"))
+  assert_true(patch.contains("+three"))
+}

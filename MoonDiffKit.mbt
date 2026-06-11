@@ -146,3 +146,25 @@ pub fn diff_lines(
   }
   reverse_ops(reversed)
 }
+
+///|
+pub fn to_unified_patch(
+  ops : Array[DiffOp],
+  old_label? : String = "old",
+  new_label? : String = "new",
+) -> String {
+  let buf = StringBuilder()
+  buf.write_string("--- " + old_label + "\n")
+  buf.write_string("+++ " + new_label + "\n")
+  buf.write_string("@@\n")
+  for op in ops {
+    if op.kind == "equal" {
+      buf.write_string(" " + op.text + "\n")
+    } else if op.kind == "add" {
+      buf.write_string("+" + op.text + "\n")
+    } else if op.kind == "remove" {
+      buf.write_string("-" + op.text + "\n")
+    }
+  }
+  buf.to_string()
+}
