@@ -65,3 +65,14 @@ test "unified patch uses familiar line prefixes" {
   assert_true(patch.contains("-two"))
   assert_true(patch.contains("+three"))
 }
+
+///|
+test "apply operations rebuilds the new side" {
+  let old_lines = ["title", "old", "tail"]
+  let new_lines = ["title", "new", "tail", "extra"]
+  let ops = @MoonDiffKit.diff_lines(old_lines, new_lines)
+  let rebuilt = @MoonDiffKit.apply_ops(old_lines, ops)
+  assert_eq(rebuilt.length(), new_lines.length())
+  assert_eq(rebuilt[1], "new")
+  assert_eq(rebuilt[3], "extra")
+}

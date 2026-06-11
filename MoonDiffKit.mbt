@@ -168,3 +168,17 @@ pub fn to_unified_patch(
   }
   buf.to_string()
 }
+
+///|
+pub fn apply_ops(
+  _old_lines : Array[String],
+  ops : Array[DiffOp],
+) -> Array[String] {
+  let result : Array[String] = []
+  for op in ops {
+    if op.kind == "equal" || op.kind == "add" {
+      result.push(op.text)
+    }
+  }
+  result
+}
