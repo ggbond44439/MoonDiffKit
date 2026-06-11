@@ -31,6 +31,8 @@ test "summarize counts line operations" {
   assert_eq(stats.removed, 1)
   assert_eq(stats.changed, 2)
   assert_true(stats.has_changes())
+  assert_true(stats.to_json().contains("\"changed\":2"))
+  assert_true(stats.to_summary().contains("added=1"))
 }
 
 ///|

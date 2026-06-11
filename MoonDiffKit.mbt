@@ -62,6 +62,16 @@ pub fn DiffStats::has_changes(self : DiffStats) -> Bool {
 }
 
 ///|
+pub fn DiffStats::to_json(self : DiffStats) -> String {
+  "{\"equal\":\{self.equal},\"added\":\{self.added},\"removed\":\{self.removed},\"changed\":\{self.changed}}"
+}
+
+///|
+pub fn DiffStats::to_summary(self : DiffStats) -> String {
+  "equal=\{self.equal}, added=\{self.added}, removed=\{self.removed}, changed=\{self.changed}"
+}
+
+///|
 fn max_int(a : Int, b : Int) -> Int {
   if a > b {
     a
