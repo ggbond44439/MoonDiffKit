@@ -32,3 +32,12 @@ test "summarize counts line operations" {
   assert_eq(stats.changed, 2)
   assert_true(stats.has_changes())
 }
+
+///|
+test "lcs length detects shared subsequence" {
+  assert_eq(
+    @MoonDiffKit.lcs_length(["keep", "old", "tail"], ["keep", "new", "tail"]),
+    2,
+  )
+  assert_eq(@MoonDiffKit.lcs_length(["a", "b"], ["x", "y"]), 0)
+}

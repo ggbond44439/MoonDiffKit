@@ -60,3 +60,37 @@ pub fn summarize(ops : Array[DiffOp]) -> DiffStats {
 pub fn DiffStats::has_changes(self : DiffStats) -> Bool {
   self.changed > 0
 }
+
+///|
+fn max_int(a : Int, b : Int) -> Int {
+  if a > b {
+    a
+  } else {
+    b
+  }
+}
+
+///|
+fn table_index(width : Int, row : Int, col : Int) -> Int {
+  row * width + col
+}
+
+///|
+pub fn lcs_length(old_lines : Array[String], new_lines : Array[String]) -> Int {
+  let width = new_lines.length() + 1
+  let table = Array::make((old_lines.length() + 1) * width, 0)
+  for i = 1; i <= old_lines.length(); i = i + 1 {
+    for j = 1; j <= new_lines.length(); j = j + 1 {
+      let idx = table_index(width, i, j)
+      if old_lines[i - 1] == new_lines[j - 1] {
+        table[idx] = table[table_index(width, i - 1, j - 1)] + 1
+      } else {
+        table[idx] = max_int(
+          table[table_index(width, i - 1, j)],
+          table[table_index(width, i, j - 1)],
+        )
+      }
+    }
+  }
+  table[table_index(width, old_lines.length(), new_lines.length())]
+}
