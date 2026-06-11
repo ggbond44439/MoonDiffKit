@@ -18,3 +18,17 @@ test "empty stats start from zero" {
   assert_eq(stats.removed, 0)
   assert_eq(stats.changed, 0)
 }
+
+///|
+test "summarize counts line operations" {
+  let stats = @MoonDiffKit.summarize([
+    @MoonDiffKit.DiffOp::equal(0, 0, "a"),
+    @MoonDiffKit.DiffOp::remove(1, "b"),
+    @MoonDiffKit.DiffOp::add(1, "c"),
+  ])
+  assert_eq(stats.equal, 1)
+  assert_eq(stats.added, 1)
+  assert_eq(stats.removed, 1)
+  assert_eq(stats.changed, 2)
+  assert_true(stats.has_changes())
+}
