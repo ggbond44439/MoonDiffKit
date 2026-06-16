@@ -9,14 +9,18 @@
 - 实现 LCS 长度和行级 diff。
 - 实现统一补丁导出和 diff 应用。
 - 实现相似度评分和摘要导出。
+- 实现文本切行入口和文本级 diff。
+- 实现上下文 hunk 分组和 context patch 导出。
+- 实现 DiffReport，汇总 hunk 数、相似度和可逆性。
+- 增加功能完成说明 `docs/FEATURES.md`。
 - 建立 CLI、CI、Issue 模板、PR 模板和变更记录。
 
 ## 建议创建的工单
 
-- `feature: 支持带上下文的 hunk 分组`
 - `feature: 增加 unified patch 解析器`
 - `feature: 支持忽略空白的 diff 选项`
 - `test: 增加大文件 diff 边界测试`
+- `benchmark: 增加 LCS 表规模和运行时间记录`
 
 ## 建议维护节奏
 
